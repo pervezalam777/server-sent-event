@@ -37,10 +37,27 @@ function sendEventsToAll(newNest){
 }
 
 async function addNest(req, res, next){
-    const newNest = req.body;
+    let newNest = {...req.body};
+    newNest.id = "nest_" + Date.now();
     nests.push(newNest);
-    res.json(newNest);
-    return sendEventsToAll(newNest)
+    console.log('in.. condition....')
+    res.status(200).send(JSON.stringify(newNest));
+    sendEventsToAll(newNest)
+}
+
+async function updateNest(req, res, next){
+    const updateNest = req.body;
+    const index = nests.findIndex((nest) => nest.id === updateNest.id);
+    if(index === -1){
+        res.status(400).send("bad request");
+        return;
+    }
+    nests[index] = updateNest;
+    const data = `event:update\ndata: ${JSON.stringify(updateNest)}\n\n`;
+    clients.forEach(client => {
+        client.res.write(data);
+    })
+    res.status(200).json({message:"success"})
 }
 
 app.use(cors());
@@ -48,9 +65,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false})) //...
 
 app.post('/nest', addNest);
+app.post('/nestUpdate', updateNest)
 app.get('/events', eventsHandler);
 app.get('/status', (req, res) => {
     res.json({connectedClients: clients.length})
+})
+
+app.get('/getList', (req, res) => {
+    res.json(nests)
 })
 
 let clients = [];
