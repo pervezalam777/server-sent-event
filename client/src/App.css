@@ -1,0 +1,18 @@
+body {
+  color:brown;
+  margin: 0 auto;
+  max-width: 50em;
+  font-size: 25px;
+  line-height: 1.5;
+  padding: 4em 1em;
+}
+
+.stats-table{
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.stats-table tbody tr:hover{
+  background-color: aqua;
+}
