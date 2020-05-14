@@ -3,12 +3,9 @@ import './App.css';
 
 function App() {
   const [nests, setNests] = useState([]);
-  const [listening, setListening] = useState(false);
-
+  
   useEffect(()=> {
-    if(!listening){
       const eventSource = new EventSource('http://localhost:5000/events');
-
       eventSource.addEventListener("message", (event) => {
         const parseData = JSON.parse(event.data);
         setNests((nests) => nests.concat(parseData));
@@ -30,9 +27,6 @@ function App() {
         console.log("on notice..")
         console.log(event.data);
       })
-      
-      setListening(true)
-    }
   }, [])
   return (
     <table className="stats-table">
