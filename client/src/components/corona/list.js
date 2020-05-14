@@ -1,24 +1,16 @@
 import React, { useEffect } from 'react';
-import { withAppStateContext } from '../../store/context/appStateContext';
+import { withCoronaContext } from '../../store/context/coronaStateContext';
 import CoronaListItem from './listItem'
 import style from './listItem.module.css'
 
-function CoronaList(
-    {
-        getCountriesList, 
-        updateCountry, 
-        addCountry, 
-        appState:{countries}
-    }
-){
+function CoronaList({connect, coronaState:{countries}}) {
     
     useEffect(()=>{
-        getCountriesList();
+        connect();
     },[])
 
     return (
         <>
-            <h1>Counties List</h1>
             <ul style={{listStyle:'none', margin:'0px', padding:'0px'}}>
                 <li className={style.row}>
                     <span>Country Name</span>
@@ -28,13 +20,11 @@ function CoronaList(
                     <span>Update</span>
                 </li>
                 {
-                    Object.keys(countries).length > 0 && 
-                    Object.keys(countries).map(key => (
+                    countries.length > 0 && 
+                    countries.map(country => (
                         <CoronaListItem 
-                            key={key} 
-                            updateCountry={updateCountry}
-                            addCountry={addCountry}
-                            item={countries[key]} />
+                            key={country.id} 
+                            item={country} />
                     ))
                 }
             </ul>
@@ -42,4 +32,4 @@ function CoronaList(
     )
 }
 
-export default withAppStateContext(CoronaList)
+export default withCoronaContext(CoronaList)

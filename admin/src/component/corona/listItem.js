@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
 import style from './listItem.module.css';
 
-function CoronaListItem({item:{id, active, total, recovered}, updateCountry}){
+function CoronaListItem(
+    {
+        item:{id, active, total, recovered, published}, 
+        updateCountry, 
+        addCountry
+    }
+){
     const [toggleEdit, setToggleEdit] = useState()
     const [loc_active, setActive] = useState(active);
     const [loc_total, setTotal] = useState(total);
@@ -41,19 +47,24 @@ function CoronaListItem({item:{id, active, total, recovered}, updateCountry}){
                     onClick={
                         () => {
                             if(toggleEdit){
-                                updateCountry({
+                                let country = {
                                     id, 
                                     active:loc_active, 
                                     total:loc_total, 
-                                    recovered:loc_recovered
-                                })
+                                    recovered:loc_recovered,
+                                    published:true
+                                }
+                                
+                                published == true 
+                                ? updateCountry(country) 
+                                : addCountry(country)
                             }
                             setToggleEdit(!toggleEdit);
                         }
                     }>
                     {
-                        toggleEdit === true
-                        ? "done"
+                        toggleEdit === true 
+                        ? published === true ? "update" : "publish"
                         : "edit"
                     }    
                 </button>

@@ -1,0 +1,18 @@
+.row {
+    list-style: none;
+    display: flex;
+    align-content: start;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 600px;
+    min-width: 300px;
+}
+
+.row span{
+    display: inline-flex;
+    margin: 5px;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: space-between;
+    min-width: 100px;
+}

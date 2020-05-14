@@ -1,12 +1,26 @@
 import * as actions from './appActionsConst';
-import { fetchCountryList } from '../../services/appService';
+import { 
+    fetchCountryList, 
+    publishCountryStats, 
+    updateCountryPublishedStats 
+} from '../../services/appService';
 
-export const addCountry = dispatch => (country) => {
-    dispatch({type:actions.ADD_COUNTRY_STATS, payload:country});
+export const addCountry = dispatch => async (country) => {
+    try {
+        await publishCountryStats(country);
+        dispatch({type:actions.ADD_COUNTRY_STATS, payload:country});
+    } catch(e){
+        console.log("Error: Add country failed: ", e.message)
+    }
 }
 
-export const updateCountry = dispatch => (country) => {
-    dispatch({type:actions.UPDATE_COUNTRY_STATS, payload:country})
+export const updateCountry = dispatch => async (country) => {
+    try{
+        await updateCountryPublishedStats(country);
+        dispatch({type:actions.UPDATE_COUNTRY_STATS, payload:country})
+    } catch(e){
+        console.log("Error: update country failed: ", e.message);
+    }
 }
 
 export const removeCountry = dispatch => (countryId) => {

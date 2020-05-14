@@ -1,55 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
+import NestsPage from './pages/nestsPage';
+import CoronaPage from './pages/coronaPage';
+import {CoronaProvider} from './store/context/coronaStateContext';
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch
+} from 'react-router-dom'
 
 function App() {
-  const [nests, setNests] = useState([]);
-  
-  useEffect(()=> {
-      const eventSource = new EventSource('http://localhost:5000/events');
-      eventSource.addEventListener("message", (event) => {
-        const parseData = JSON.parse(event.data);
-        setNests((nests) => nests.concat(parseData));
-      });
-
-      eventSource.addEventListener("update", (event) => {
-        console.log("on Update");
-        console.log(event.data);
-        setNests((nests) => {
-          let updatedNest = JSON.parse(event.data);
-          let updateNests = [...nests];
-          let index = updateNests.findIndex(nest => nest.id == updatedNest.id);
-          updateNests[index] = updatedNest;
-          return updateNests;
-        })
-      })
-
-      eventSource.addEventListener("notice", (event) => {
-        console.log("on notice..")
-        console.log(event.data);
-      })
-  }, [])
   return (
-    <table className="stats-table">
-      <thead>
-        <tr>
-          <th>Momma</th>
-          <th>Eggs</th>
-          <th>Temperature</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          nests && nests.length > 0 && nests.map((nest, i) => (
-            <tr key={i}>
-              <td>{nest.momma}</td>
-              <td>{nest.eggs}</td>
-              <td>{nest.temperature}</td>
-            </tr>
-          )) 
-        }
-      </tbody>
-   </table> 
-  );
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Nests</Link>
+          </li>
+          <li>
+            <Link to="/corona">Corona</Link>
+          </li>
+        </ul>
+      </nav>
+      <Switch>
+        <Route path="/corona">
+          <CoronaProvider>
+            <CoronaPage />
+          </CoronaProvider>
+        </Route>
+        <Route path="/">
+          <NestsPage />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
