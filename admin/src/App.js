@@ -1,5 +1,4 @@
 import React from 'react';
-import NestsPage from './page/nests'
 import CoronaPage from './page/corona'
 import './App.css';
 import {
@@ -17,20 +16,14 @@ function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/corona">Corona</Link>
+              <Link to="/">Corona</Link>
             </li>
           </ul>
         </nav>
       </div>
       <Switch>
-        <Route path="/corona">
-          <CoronaPage />
-        </Route>
         <Route path="/">
-          <NestsPage />
+          <CoronaPage />
         </Route>
       </Switch>
     </Router>

@@ -6,17 +6,11 @@ Server sent event is unidirectional communication from server to client. Client 
 ## How to run
 This application divided into three parts server, admin and client
 
-Step 1: 
-- I: Open command window (cmd or terminal)
+Step 1: Open command window (cmd or terminal)
 ```bash
 # go inside the server folder and run the following command
 server> npm install
 # then
-server> node index.js
-```
-- II: Open another command window (cmd or terminal)
-```bash
-# go inside the server folder and run the following command
 server> node server.mjs
 ```
 

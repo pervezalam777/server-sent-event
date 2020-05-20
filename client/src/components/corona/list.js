@@ -17,7 +17,6 @@ function CoronaList({connect, coronaState:{countries}}) {
                     <span>Total</span>
                     <span>Active</span>
                     <span>Recovered</span>
-                    <span>Update</span>
                 </li>
                 {
                     countries.length > 0 && 
